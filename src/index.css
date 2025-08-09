@@ -1,0 +1,37 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-raleway: "Raleway", sans-serif;
+  --font-roboto: "Roboto", sans-serif;
+
+  --breakpoint-xs: 425px;
+}
+
+/* dark mode */
+@custom-variant dark (&:where(.dark, .dark *));
+
+.container-costume {
+  @apply w-full max-w-[1200px] mx-auto;
+}
+
+/* index.css atau global CSS */
+/* index.css */
+.connect-btn-wrapper button {
+  padding: 0.75rem 1.5rem; /* py-3 px-6 */
+  border-radius: 0.5rem; /* rounded-lg */
+  background-color: #ef4444; /* bg-red-500 */
+  color: white; /* text-white */
+  font-weight: 500; /* font-medium */
+  transition: all 0.2s ease-in-out; /* transition-all */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
+}
+
+.connect-btn-wrapper button:hover {
+  background-color: #dc2626; /* bg-red-600 */
+}
+
+
+
+
+
