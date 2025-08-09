@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { CONTRACT } from "../../client";
 import { Link } from "react-router";
 import { prepareContractCall } from "thirdweb";
@@ -7,8 +8,9 @@ import {
   useReadContract,
 } from "thirdweb/react";
 
-export default function Card({refetchLogs}) {
+export default function Card({ refetchLogs }) {
   const account = useActiveAccount();
+  const [isVoting, setIsVoting] = useState(false);
 
   //!! function hasVote
   const {
@@ -39,7 +41,11 @@ export default function Card({refetchLogs}) {
   };
 
   const handleRefetchAfterVote = async () => {
-    await Promise.all([isRefetchHasVote(), isRefetchIsCandidate(), refetchLogs()]);
+    await Promise.all([
+      isRefetchHasVote(),
+      isRefetchIsCandidate(),
+      refetchLogs(),
+    ]);
   };
 
   return (
@@ -121,9 +127,16 @@ export default function Card({refetchLogs}) {
                           params: [c.id],
                         })
                       }
-                      disabled={isPendingHasVote || hasVote}
-                      onTransactionConfirmed={handleRefetchAfterVote}
-                      onError={(err) => alert(err.message)}
+                      disabled={isPendingHasVote || hasVote || isVoting}
+                      onTransactionStart={() => setIsVoting(true)}
+                      onTransactionConfirmed={async () => {
+                        await handleRefetchAfterVote();
+                        setIsVoting(false);
+                      }}
+                      onError={(err) => {
+                        console.error(err.message);
+                        setIsVoting(false);
+                      }}
                     >
                       {hasVote ? "You Already Voted" : "Vote Now"}
                     </TransactionButton>
